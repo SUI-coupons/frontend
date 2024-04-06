@@ -10,20 +10,19 @@ Client dApp using the following tools:
 - [ESLint](https://eslint.org/)
 - [`@mysten/dapp-kit`](https://sdk.mystenlabs.com/dapp-kit) for connecting to
   wallets and loading data
-- [pnpm](https://pnpm.io/) for package management
 
 ## Starting your dApp
 
 To install dependencies you can run
 
 ```bash
-pnpm install
+npm install
 ```
 
 To start your dApp in development mode run
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 ## Building
@@ -31,5 +30,5 @@ pnpm dev
 To build your app for deployment you can run
 
 ```bash
-pnpm build
+npm run build
 ```
