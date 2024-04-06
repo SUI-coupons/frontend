@@ -9,7 +9,7 @@ function App() {
   const currentAccount = useCurrentAccount();
 	const [open, setOpen] = useState(false);
   return (
-    <>
+    <main className="bg-[#191C1F] min-h-[100vh]">
       <Flex
         position="sticky"
         justify="between"
@@ -36,10 +36,10 @@ function App() {
           />
         </Box>
       </Flex>
-      <main className="px-20">
+      <section className="px-20">
         <Outlet />
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
 

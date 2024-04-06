@@ -9,7 +9,7 @@ interface CardProps {
 
 export function Card({ name, company, status, price, image }: CardProps) {
     return (
-        <div className="card border border-[#FFFFFF14] p-4">
+        <div className="card border border-[#FFFFFF14] p-4 rounded-xl">
             <div className="w-[275px] h-[250px] flex items-center bg-black rounded-xl">
                 <img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" />
             </div>
