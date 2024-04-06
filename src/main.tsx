@@ -15,6 +15,7 @@ import { Theme } from "@radix-ui/themes";
 import App from "./App.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard.tsx";
+import { Buy } from "./pages/Buy.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Dashboard />,
       },
+      {
+        path: "/buy",
+        element: <Buy />
+      }
     ],
   }
 ]);

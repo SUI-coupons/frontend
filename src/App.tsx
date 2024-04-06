@@ -9,7 +9,7 @@ function App() {
   const currentAccount = useCurrentAccount();
 	const [open, setOpen] = useState(false);
   return (
-    <main className="bg-[#191C1F] min-h-[100vh]">
+    <main className="bg-[#191C1F] min-h-[100vh] flex flex-col">
       <Flex
         position="sticky"
         justify="between"
@@ -21,7 +21,7 @@ function App() {
         <div className="flex gap-4 items-center">
           <input className="w-[400px] bg-[#222528] placeholder:text-white p-2 rounded-md" placeholder="Search coupons..." />
           <div className="flex gap-4">
-            <Link to={'/explore'}>Explore</Link>
+            <Link to={'/'}>Explore</Link>
             <Link to={'/my-listings'}>My Listings</Link>
           </div>
         </div>
@@ -36,7 +36,7 @@ function App() {
           />
         </Box>
       </Flex>
-      <section className="px-20">
+      <section className="px-20 flex-auto flex flex-col">
         <Outlet />
       </section>
     </main>
