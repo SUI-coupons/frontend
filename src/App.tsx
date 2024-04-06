@@ -2,7 +2,7 @@ import { ConnectButton, ConnectModal, useCurrentAccount } from "@mysten/dapp-kit
 import { Box, Container, Flex, TextField } from "@radix-ui/themes";
 import { WalletStatus } from "./WalletStatus";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
@@ -18,7 +18,13 @@ function App() {
         }}
         className="mb-8 px-40 py-4 border-b border-[#FFFFFF78] text-white items-center"
       >
-        <input className="w-[400px] bg-[#222528] placeholder:text-white p-2 rounded-md" placeholder="Search coupons..." />
+        <div className="flex gap-4 items-center">
+          <input className="w-[400px] bg-[#222528] placeholder:text-white p-2 rounded-md" placeholder="Search coupons..." />
+          <div className="flex gap-4">
+            <Link to={'/explore'}>Explore</Link>
+            <Link to={'/my-listings'}>My Listings</Link>
+          </div>
+        </div>
 
         <Box>
           <ConnectModal
