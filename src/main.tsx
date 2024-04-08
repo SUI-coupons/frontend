@@ -16,6 +16,7 @@ import App from "./App.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard.tsx";
 import { Buy } from "./pages/Buy.tsx";
+import { Register } from "./pages/Register.tsx";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/buy",
         element: <Buy />
+      },
+      {
+        path: "/register",
+        element: <Register />
       }
     ],
   }
