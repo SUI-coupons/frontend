@@ -6,14 +6,20 @@ export function walletLoader({ params }) {
     return { walletAddress };
   }
 
-export function Listings() {
-    const { walletAddress } = useLoaderData();
+export function Listings({ needLogin }) {
+    const walletAddress = needLogin ? '' : useLoaderData().walletAddress;
     return (
         <>
-            <h1>Wallet: { walletAddress }</h1>
-            <section className="flex gap-8 justify-center">
-                <Card name="Coupon Name" company="Company" status="Available" price="0.003" image="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" />
-            </section>
+            {
+                needLogin ? <h1>Please login first</h1>
+                :
+                <>
+                    <h1>Wallet: { walletAddress }</h1>
+                    <section className="flex gap-8 justify-center">
+                        <Card name="Coupon Name" company="Company" status="Available" price="0.003" image="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" />
+                    </section>
+                </>
+            }
         </>
     )
 }
