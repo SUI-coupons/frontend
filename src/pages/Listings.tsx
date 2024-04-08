@@ -7,6 +7,8 @@ export function walletLoader({ params }) {
   }
 
 export function Listings({ needLogin }) {
+    console.log(needLogin);
+    
     const walletAddress = needLogin ? '' : useLoaderData().walletAddress;
     return (
         <>

@@ -47,11 +47,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/my-listings",
-        element: <Listings needLogin={true} />,
         children: [
           {
             path: ":walletAddress",
-            element: <Listings />,
+            element: <Listings needLogin={false} />,
             loader: walletLoader,
           },
         ],
