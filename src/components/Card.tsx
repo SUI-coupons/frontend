@@ -1,12 +1,22 @@
 interface CardProps {
-    name: string
-    company: string
+    description: string
+    brand: string
     status: string
     price: string
+    discount: string
     image: string
 }
 
-export function Card({ name, company, status, price, image }: CardProps) {
+export function Card({
+    description,
+    brand,
+    status,
+    price,
+    discount,
+    image,
+}: CardProps) {
+    const dateFormat = new Date(status * 1000).toLocaleDateString()
+    const valid = new Date(status * 1000) > new Date()
     return (
         <div className='card border border-[#FFFFFF14] p-4 rounded-xl'>
             <div className='w-[275px] h-[250px] flex items-center bg-black rounded-xl'>
@@ -18,15 +28,19 @@ export function Card({ name, company, status, price, image }: CardProps) {
             <section className='mt-4 flex flex-col gap-4'>
                 <div className='flex justify-between items-center px-3'>
                     <div>
-                        <p className='text-sm text-[#FFFFFF99]'>by {company}</p>
-                        <h3 className='font-bold'>{name}</h3>
+                        <p className='text-sm text-[#FFFFFF99]'>by {brand}</p>
+                        <h3 className='font-bold'>{description}</h3>
                     </div>
-                    <p className='text-[#FFFFFF99]'>50% OFF</p>
+                    <p className='text-[#FFFFFF99]'>
+                        {(parseFloat(discount) * 100).toString()}% OFF
+                    </p>
                 </div>
                 <div className='grid grid-cols-2 bg-[#FFFFFF1A] w-full rounded-lg px-3 py-2'>
                     <div>
-                        <p className='text-[#FFFFFF99] text-[13px]'>Status</p>
-                        <p>{status}</p>
+                        <p className='text-[#FFFFFF99] text-[13px]'>
+                            Available status
+                        </p>
+                        <p>{dateFormat}</p>
                     </div>
                     {price ? (
                         <div>
