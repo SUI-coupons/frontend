@@ -65,7 +65,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <QueryClientProvider client={queryClient}>
                 <SuiClientProvider
                     networks={networkConfig}
-                    defaultNetwork='devnet'
+                    defaultNetwork='testnet'
                 >
                     <WalletProvider autoConnect>
                         <RouterProvider router={router} />
