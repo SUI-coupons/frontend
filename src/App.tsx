@@ -24,7 +24,8 @@ function App() {
           <input className="w-[400px] bg-[#222528] placeholder:text-white p-2 rounded-md" placeholder="Search coupons..." />
           <div className="flex gap-4">
             <Link to={'/'}>Explore</Link>
-            <Link to={'/my-listings'}>My Listings</Link>
+            <Link to={`/my-listings/${currentAccount?.address}`}>My Listings</Link>
+            <Link to={'/register'}>Register</Link>
           </div>
         </div>
 

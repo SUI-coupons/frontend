@@ -26,10 +26,16 @@ export function Card({ name, company, status, price, image }: CardProps) {
                         <p className="text-[#FFFFFF99] text-[13px]">Status</p>
                         <p>{status}</p>
                     </div>
-                    <div>
-                        <p className="text-[#FFFFFF99] text-[13px]">Price</p>
-                        <p>{price} SUI</p>
-                    </div>
+                    {
+                        price ? 
+                        <div>
+                            <p className="text-[#FFFFFF99] text-[13px]">Price</p>
+                            <p>{price} SUI</p>
+                        </div> : 
+                        <div className="justify-self-end">
+                            <button className="px-4 py-2 bg-[#4DA2FF] rounded-md">Claim</button>
+                        </div>
+                    }
                 </div>
             </section>
         </div>

@@ -17,6 +17,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard.tsx";
 import { Buy } from "./pages/Buy.tsx";
 import { Register } from "./pages/Register.tsx";
+import { Listings, walletLoader } from "./pages/Listings.tsx";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />
+      },
+      {
+        path: "/my-listings/:walletAddress",
+        element: <Listings />,
+        loader: walletLoader
       }
     ],
   }
