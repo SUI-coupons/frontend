@@ -5,6 +5,8 @@ import {
     useCurrentAccount,
     useSignAndExecuteTransactionBlock,
 } from '@mysten/dapp-kit'
+import { Modal } from 'flowbite-react'
+import { useState } from 'react'
 
 interface CardProps {
     description: string
@@ -30,6 +32,9 @@ export function Card({
     console.log(claimable)
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalText, setModalText] = useState('')
+    const [hasError, setHasError] = useState(false)
 
     const { mutate: signAndExecuteTransactionBlock } =
         useSignAndExecuteTransactionBlock()
@@ -52,7 +57,14 @@ export function Card({
             },
             {
                 onSuccess: result => {
-                    console.log(result)
+                    setModalText('Coupon has been claimed successfully.')
+                    setHasError(false)
+                    setModalOpen(true)
+                },
+                onError: error => {
+                    setModalText(error.message)
+                    setHasError(true)
+                    setModalOpen(true)
                 },
             },
         )
@@ -60,7 +72,7 @@ export function Card({
 
     return (
         <div className='card border border-[#FFFFFF14] p-4 rounded-xl'>
-            <div className='w-full flex items-center bg-black rounded-xl'>
+            <div className='w-full h-[250px] flex items-center bg-transparent rounded-xl'>
                 {imageURI ? (
                     <img
                         className='rounded-[inherit]'
@@ -115,6 +127,46 @@ export function Card({
                     )}
                 </div>
             </section>
+            <Modal
+                theme={{
+                    content: {
+                        base: 'relative h-full w-full p-4 md:h-auto text-white',
+                        inner: 'relative flex max-h-[90dvh] flex-col rounded-lg shadow bg-[#222528]',
+                    },
+                    header: {
+                        base: 'flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600',
+                        popup: 'border-b-0 p-2',
+                        title: 'text-xl font-medium text-white',
+                        close: {
+                            base: 'ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white',
+                            icon: 'h-5 w-5',
+                        },
+                    },
+                }}
+                show={modalOpen}
+                onClose={() => setModalOpen(false)}
+            >
+                <Modal.Header>Coupon Claim Result</Modal.Header>
+                <Modal.Body>
+                    <div className='space-y-6'>
+                        <p
+                            className={clsx(
+                                `${hasError ? 'text-red-400' : 'text-white'}`,
+                            )}
+                        >
+                            {modalText}
+                        </p>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        className='px-4 py-2 bg-[#4DA2FF] rounded-md'
+                        onClick={() => setModalOpen(false)}
+                    >
+                        Close
+                    </button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
