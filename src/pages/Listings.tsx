@@ -1,5 +1,10 @@
 import { useLoaderData } from 'react-router-dom'
 import { Card } from '../components/Card'
+import {
+    useSuiClientQuery,
+    useCurrentAccount,
+    useSignAndExecuteTransactionBlock,
+} from '@mysten/dapp-kit'
 
 export function walletLoader({ params }) {
     const walletAddress = params.walletAddress

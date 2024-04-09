@@ -18,14 +18,26 @@ function CouponData({ coupon_id }: { coupon_id: string }) {
     })
 
     if (data) {
-        const { id, brand, itemDiscount, discount, expirationDate, publisher } =
-            data.data.content.fields
+        if (!data?.data?.content?.fields?.id) {
+            return null
+        }
+        const {
+            id,
+            brandName,
+            itemDiscount,
+            discount,
+            expirationDate,
+            publisher,
+            imageURI,
+        } = data?.data?.content?.fields
         return (
             <Card
+                coupon_id={id.id.toString()}
                 description={`${itemDiscount}`}
-                brand={`${brand}`}
+                brand={`${brandName}`}
                 status={expirationDate.toString()}
                 discount={(discount / 200).toString()}
+                imageURI={imageURI}
             />
         )
     }
@@ -34,7 +46,7 @@ function CouponData({ coupon_id }: { coupon_id: string }) {
 export function Dashboard() {
     const [listAvailableCoupons, setListAvailableCoupons] = useState([])
 
-    const { data } = useSuiClientQuery('getObject', {
+    const { data, refetch } = useSuiClientQuery('getObject', {
         id: import.meta.env.VITE_STATE_OBJECT_ID,
         options: {
             showType: true,
@@ -58,9 +70,12 @@ export function Dashboard() {
         listAvailableCoupons && (
             <div className='grid grid-cols-4 gap-x-8 gap-y-4 justify-between'>
                 {listAvailableCoupons.map(
-                    (coupon_id: string, index: number) => (
-                        <CouponData coupon_id={coupon_id} key={index} />
-                    ),
+                    (coupon_id: string, index: number) => {
+                        const CouponDataComponent = (
+                            <CouponData key={index} coupon_id={coupon_id} />
+                        )
+                        return CouponDataComponent
+                    },
                 )}
             </div>
         )

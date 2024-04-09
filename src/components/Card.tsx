@@ -1,4 +1,10 @@
 import clsx from 'clsx'
+import { TransactionBlock } from '@mysten/sui.js/transactions'
+import {
+    useSuiClientQuery,
+    useCurrentAccount,
+    useSignAndExecuteTransactionBlock,
+} from '@mysten/dapp-kit'
 
 interface CardProps {
     description: string
@@ -6,27 +12,65 @@ interface CardProps {
     status: string
     price: string
     discount: string
-    image: string
+    imageURI: string
+    coupon_id: string
 }
 
 export function Card({
+    coupon_id,
     description,
     brand,
     status,
     price,
     discount,
-    image,
+    imageURI,
 }: CardProps) {
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
+
+    const { mutate: signAndExecuteTransactionBlock } =
+        useSignAndExecuteTransactionBlock()
+
+    const handleClaim = () => {
+        console.log(coupon_id.toString())
+        console.log(description)
+        const txb = new TransactionBlock()
+        txb.moveCall({
+            target: `${import.meta.env.VITE_PACKAGE_ID}::coupons::claim_coupon`,
+            arguments: [
+                txb.object(coupon_id),
+                txb.object(`${import.meta.env.VITE_STATE_OBJECT_ID}`),
+            ],
+        })
+        signAndExecuteTransactionBlock(
+            {
+                transactionBlock: txb,
+                chain: 'sui:testnet',
+            },
+            {
+                onSuccess: result => {
+                    console.log(result)
+                },
+            },
+        )
+    }
+
     return (
         <div className='card border border-[#FFFFFF14] p-4 rounded-xl'>
             <div className='w-full flex items-center bg-black rounded-xl'>
-                <img
-                    className='rounded-[inherit]'
-                    src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-                    alt='Shoes'
-                />
+                {imageURI ? (
+                    <img
+                        className='rounded-[inherit]'
+                        src={imageURI}
+                        alt={description}
+                    />
+                ) : (
+                    <img
+                        className='rounded-[inherit]'
+                        src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
+                        alt='Shoes'
+                    />
+                )}
             </div>
             <section className='mt-4 flex flex-col gap-4'>
                 <div className='flex justify-between items-center px-3'>
@@ -62,6 +106,10 @@ export function Card({
                                         ? ''
                                         : 'bg-[#4DA2FF80] cursor-not-allowed',
                                 )}
+                                onClick={e => {
+                                    e.preventDefault()
+                                    handleClaim()
+                                }}
                             >
                                 Claim
                             </button>
