@@ -14,6 +14,7 @@ interface CardProps {
     discount: string
     imageURI: string
     coupon_id: string
+    claimable: boolean
 }
 
 export function Card({
@@ -24,7 +25,9 @@ export function Card({
     price,
     discount,
     imageURI,
+    claimable,
 }: CardProps) {
+    console.log(claimable)
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
 
@@ -89,13 +92,8 @@ export function Card({
                         </p>
                         <p>{dateFormat}</p>
                     </div>
-                    {price ? (
-                        <div>
-                            <p className='text-[#FFFFFF99] text-[13px]'>
-                                Price
-                            </p>
-                            <p>{price} SUI</p>
-                        </div>
+                    {!claimable ? (
+                        <div className='justify-self-end'>Owned</div>
                     ) : (
                         <div className='justify-self-end'>
                             <button

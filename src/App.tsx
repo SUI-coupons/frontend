@@ -50,11 +50,11 @@ function App() {
                             >
                                 {' '}
                                 {currentAccount
-                                    ? currentAccount.address.slice(0, 5) +
+                                    ? currentAccount.address.slice(0, 6) +
                                       '...' +
                                       currentAccount.address.slice(
                                           currentAccount.address.length - 6,
-                                          currentAccount.address.length - 1,
+                                          currentAccount.address.length,
                                       )
                                     : 'Connect'}
                             </button>

@@ -3,7 +3,13 @@ import { Card } from '../components/Card'
 import { useEffect, useState } from 'react'
 import { useSuiClientQuery } from '@mysten/dapp-kit'
 
-function CouponData({ coupon_id }: { coupon_id: string }) {
+export function CouponData({
+    coupon_id,
+    claimable,
+}: {
+    coupon_id: string
+    claimable: boolean
+}) {
     const { data } = useSuiClientQuery('getObject', {
         id: coupon_id,
         options: {
@@ -38,6 +44,7 @@ function CouponData({ coupon_id }: { coupon_id: string }) {
                 status={expirationDate.toString()}
                 discount={(discount / 200).toString()}
                 imageURI={imageURI}
+                claimable={claimable}
             />
         )
     }
@@ -72,7 +79,11 @@ export function Dashboard() {
                 {listAvailableCoupons.map(
                     (coupon_id: string, index: number) => {
                         const CouponDataComponent = (
-                            <CouponData key={index} coupon_id={coupon_id} />
+                            <CouponData
+                                key={index}
+                                coupon_id={coupon_id}
+                                claimable={true}
+                            />
                         )
                         return CouponDataComponent
                     },

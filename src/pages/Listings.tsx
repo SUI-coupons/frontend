@@ -5,6 +5,8 @@ import {
     useCurrentAccount,
     useSignAndExecuteTransactionBlock,
 } from '@mysten/dapp-kit'
+import { useEffect, useState } from 'react'
+import { CouponData } from './Dashboard'
 
 export function walletLoader({ params }) {
     const walletAddress = params.walletAddress
@@ -12,9 +14,37 @@ export function walletLoader({ params }) {
 }
 
 export function Listings({ needLogin }) {
-    console.log(needLogin)
-
     const walletAddress = needLogin ? '' : useLoaderData().walletAddress
+
+    const [listAvailableCoupons, setListAvailableCoupons] = useState<
+        (string | undefined)[]
+    >([])
+
+    const { data, refetch } = useSuiClientQuery('getOwnedObjects', {
+        owner: walletAddress,
+        filter: {
+            MatchAll: [
+                {
+                    StructType: `${import.meta.env.VITE_PACKAGE_ID}::coupons::Coupon`,
+                },
+                {
+                    AddressOwner: walletAddress,
+                },
+            ],
+        },
+    })
+
+    useEffect(() => {
+        if (data) {
+            const listCoupons = data.data
+            const mappedCoupons = listCoupons.map(coupon => {
+                return coupon?.data.objectId
+            })
+            console.log(mappedCoupons)
+            setListAvailableCoupons(mappedCoupons)
+        }
+    }, [data])
+
     return (
         <>
             {needLogin ? (
@@ -22,14 +52,18 @@ export function Listings({ needLogin }) {
             ) : (
                 <>
                     <h1>Wallet: {walletAddress}</h1>
-                    <section className='flex gap-8 justify-center'>
-                        <Card
-                            name='Coupon Name'
-                            company='Company'
-                            status='Available'
-                            price='0.003'
-                            image='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
-                        />
+                    <section className='grid grid-cols-4 gap-x-8 gap-y-4 justify-between'>
+                        {listAvailableCoupons.map(
+                            (coupon_id: string, index: number) => {
+                                const CouponDataComponent = (
+                                    <CouponData
+                                        key={index}
+                                        coupon_id={coupon_id}
+                                    />
+                                )
+                                return CouponDataComponent
+                            },
+                        )}
                     </section>
                 </>
             )}
