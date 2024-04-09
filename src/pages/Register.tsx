@@ -121,6 +121,6 @@ export function Register() {
                     </button>
                 </Modal.Footer>
             </Modal>
-        </section>
+        </section>  
     )
 }

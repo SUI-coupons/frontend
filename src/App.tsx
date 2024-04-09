@@ -38,6 +38,12 @@ function App() {
                         </Link>
                         <Link to={'/register'}>Register</Link>
                         <Link to={'/add'}>Add Coupon</Link>
+                        <Link to={'/create_kiosk'}> Kiosk Manage</Link>
+                        <Link
+                            to={`kiosk/${currentAccount ? currentAccount.address : ''}`}
+                        >
+                            My Kiosk
+                        </Link>
                     </div>
                 </div>
 
