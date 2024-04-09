@@ -18,6 +18,7 @@ import { Dashboard } from './pages/Dashboard.tsx'
 import { Buy } from './pages/Buy.tsx'
 import { Register } from './pages/Register.tsx'
 import { Listings, walletLoader } from './pages/Listings.tsx'
+import { AddCoupon } from './pages/AddCoupon.tsx'
 
 const queryClient = new QueryClient()
 
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
                         loader: walletLoader,
                     },
                 ],
+            },
+            {
+                path: '/add',
+                element: <AddCoupon />,
             },
         ],
     },

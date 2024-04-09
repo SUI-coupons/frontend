@@ -56,7 +56,7 @@ export function Dashboard() {
 
     return (
         listAvailableCoupons && (
-            <div className='flex justify-between'>
+            <div className='grid grid-cols-4 gap-x-8 gap-y-4 justify-between'>
                 {listAvailableCoupons.map(
                     (coupon_id: string, index: number) => (
                         <CouponData coupon_id={coupon_id} key={index} />

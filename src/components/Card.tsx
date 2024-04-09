@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 interface CardProps {
     description: string
     brand: string
@@ -19,8 +21,9 @@ export function Card({
     const valid = new Date(status * 1000) > new Date()
     return (
         <div className='card border border-[#FFFFFF14] p-4 rounded-xl'>
-            <div className='w-[275px] h-[250px] flex items-center bg-black rounded-xl'>
+            <div className='w-full flex items-center bg-black rounded-xl'>
                 <img
+                    className='rounded-[inherit]'
                     src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
                     alt='Shoes'
                 />
@@ -51,7 +54,15 @@ export function Card({
                         </div>
                     ) : (
                         <div className='justify-self-end'>
-                            <button className='px-4 py-2 bg-[#4DA2FF] rounded-md'>
+                            <button
+                                disabled={!valid}
+                                className={clsx(
+                                    `px-4 py-2 bg-[#4DA2FF] rounded-md`,
+                                    valid
+                                        ? ''
+                                        : 'bg-[#4DA2FF80] cursor-not-allowed',
+                                )}
+                            >
                                 Claim
                             </button>
                         </div>
