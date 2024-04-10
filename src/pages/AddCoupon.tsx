@@ -2,12 +2,7 @@ import { useForm } from 'react-hook-form'
 import { Datepicker } from 'flowbite-react'
 import { useState } from 'react'
 import { TransactionBlock } from '@mysten/sui.js/transactions'
-import {
-    useSuiClientQuery,
-    useCurrentAccount,
-    useSignAndExecuteTransactionBlock,
-} from '@mysten/dapp-kit'
-
+import { useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit'
 export function AddCoupon() {
     const { register, handleSubmit } = useForm()
     const [date, setDate] = useState(new Date())

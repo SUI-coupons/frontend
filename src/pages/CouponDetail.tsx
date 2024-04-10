@@ -1,9 +1,19 @@
-import { useSuiClientQuery } from '@mysten/dapp-kit'
+import {
+    useCurrentAccount,
+    useSignAndExecuteTransactionBlock,
+    useSuiClientQuery,
+} from '@mysten/dapp-kit'
 import { Select } from '@radix-ui/themes'
 import clsx from 'clsx'
 import { Link, useParams } from 'react-router-dom'
 import { Listbox, Transition } from '@headlessui/react'
 import { useState, Fragment } from 'react'
+import { useOwnedKiosk } from '../hooks/kiosk'
+import { Loading } from '../components/Base/Loading'
+import { WalletNotConnected } from '../components/Base/WalletNotConnected'
+import { assert, formatAddress } from '@mysten/sui.js/utils'
+import { TransactionBlock } from '@mysten/sui.js/transactions'
+import { usePlaceMutation } from '../mutations/kiosk'
 
 export function CouponData({ coupon_id }: { coupon_id: string }) {
     const { data } = useSuiClientQuery('getObject', {
@@ -23,16 +33,75 @@ export function CouponData({ coupon_id }: { coupon_id: string }) {
         if (!data?.data?.content?.fields?.id) {
             return null
         }
+        console.log(data)
+        if (data?.data?.owner?.ObjectOwner) return null
         return data?.data?.content?.fields
     }
 }
 
-const kiosks = ['Kiosk 1', 'Kiosk 2']
-
 export function CouponDetail() {
+    const currentAccount = useCurrentAccount()
+
+    const {
+        data: ownedKiosk,
+        isPending,
+        refetch: refetchOwnedKiosk,
+    } = useOwnedKiosk(currentAccount?.address)
+
     const { couponId } = useParams()
     const couponData = CouponData({ coupon_id: couponId! })
     const [selectedKiosk, setSelectedKiosk] = useState('')
+    const [selectedPrice, setSelectedPrice] = useState(0)
+    const { mutate: signAndExecuteTransactionBlock } =
+        useSignAndExecuteTransactionBlock()
+
+    if (!currentAccount?.address) return <WalletNotConnected />
+    if (isPending) return <Loading />
+    if (!couponData)
+        return (
+            <h1>
+                Already listed, checkout other vouchers or manage your kiosk
+            </h1>
+        )
+    let kiosks = []
+    if (ownedKiosk) {
+        // console.log(ownedKiosk)
+        kiosks = ownedKiosk.caps.map(cap => cap.kioskId)
+    }
+
+    const handleList = () => {
+        if (!ownedKiosk) return
+        const trueMYST = selectedPrice * 10 ** 9
+        const txb = new TransactionBlock()
+        const kioskId = selectedKiosk
+        if (!kioskId) return
+        const capId = ownedKiosk.caps.find(
+            cap => cap.kioskId === kioskId,
+        )?.objectId
+        txb.moveCall({
+            target: `0x2::kiosk::place_and_list`,
+            arguments: [
+                txb.object(kioskId),
+                txb.object(capId),
+                txb.object(couponId as string),
+                txb.pure.u64(trueMYST),
+            ],
+            typeArguments: [
+                `${import.meta.env.VITE_PACKAGE_ID}::coupons::Coupon`,
+            ],
+        })
+        signAndExecuteTransactionBlock(
+            {
+                transactionBlock: txb,
+                chain: 'sui:testnet',
+            },
+            {
+                onSuccess: result => {
+                    console.log(result)
+                },
+            },
+        )
+    }
 
     return !couponData ? (
         <h1>Coupon not found</h1>
@@ -71,6 +140,9 @@ export function CouponDetail() {
                             className='p-2 col-span-2 mr-4 bg-[#222528] placeholder:text-sm placeholder:text-white rounded-md'
                             type='number'
                             placeholder='Input price...'
+                            onChange={e =>
+                                setSelectedPrice(parseFloat(e.target.value))
+                            }
                         />
                         <Listbox
                             value={selectedKiosk}
@@ -137,8 +209,14 @@ export function CouponDetail() {
                         </Listbox>
                     </div>
                     <br />
-                    <button className='px-4 py-2 bg-[#4DA2FF] rounded-md'>
-                        Place
+                    <button
+                        className='px-4 py-2 bg-[#4DA2FF] rounded-md'
+                        onClick={e => {
+                            e.preventDefault()
+                            handleList()
+                        }}
+                    >
+                        List
                     </button>
                 </div>
             </section>

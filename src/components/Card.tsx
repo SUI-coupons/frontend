@@ -30,13 +30,11 @@ export function Card({
     imageURI,
     claimable,
 }: CardProps) {
-    console.log(claimable)
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
     const [modalOpen, setModalOpen] = useState(false)
     const [modalText, setModalText] = useState('')
     const [hasError, setHasError] = useState(false)
-
     const { mutate: signAndExecuteTransactionBlock } =
         useSignAndExecuteTransactionBlock()
 
@@ -112,7 +110,7 @@ export function Card({
                         <p>{dateFormat}</p>
                     </div>
                     {!claimable ? (
-                        <div className='justify-self-end'>Owned</div>
+                        <div className='justify-self-end'>Place</div>
                     ) : (
                         <div className='justify-self-end'>
                             <button

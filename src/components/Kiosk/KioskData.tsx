@@ -65,17 +65,17 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                         </div>
                         <div className='mt-2'>
                             Profits: {profits} SUI
-                            {Number(kiosk.profits) > 0 && (
+                            {
                                 <Button
                                     loading={withdrawMutation.isPending}
-                                    className=' ease-in-out duration-300 rounded border border-transparent px-4 bg-gray-200 text-xs !py-1 ml-3'
+                                    className=' ease-in-out duration-300 rounded border border-transparent px-4 bg-white-200 text-xs !py-1 ml-3'
                                     onClick={() =>
                                         withdrawMutation.mutate(kiosk)
                                     }
                                 >
                                     Withdraw all
                                 </Button>
-                            )}
+                            }
                         </div>
                         <div className='mt-2'>
                             UID Exposed: {kiosk.allowExtensions.toString()}{' '}
@@ -110,7 +110,7 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                             )
                         }
                     >
-                        My Wallet
+                        Marketplace
                     </Tab>
                 </Tab.List>
                 <Tab.Panels className='w-[50%]'>
@@ -128,12 +128,7 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                             'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                         )}
                     >
-                        {currentAccount && (
-                            <OwnedObjects
-                                kioskId={kioskId}
-                                address={currentAccount.address}
-                            ></OwnedObjects>
-                        )}
+                        {kioskId && <KioskItems kioskId={kioskId}></KioskItems>}
                     </Tab.Panel>
                 </Tab.Panels>
             </Tab.Group>

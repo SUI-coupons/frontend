@@ -49,7 +49,7 @@ export function KioskSelector({
                     >
                         <Listbox.Options
                             className='absolute mt-1 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-md
-             bg-white text-base shadow-lg ring-1
+            text-base shadow-lg ring-1
              border border-primary
              ring-black ring-opacity-5 focus:outline-none sm:text-sm'
                         >

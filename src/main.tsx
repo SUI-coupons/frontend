@@ -75,15 +75,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/kiosk',
-                element: <SingleKiosk />,
-            },
-            {
-                path: '/create_kiosk',
                 element: <Home />,
-            },
-            {
-                path: '/kiosk/:id',
-                element: <SingleKiosk />,
             },
         ],
     },
