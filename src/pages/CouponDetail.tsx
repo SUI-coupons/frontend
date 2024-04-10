@@ -66,9 +66,9 @@ export function CouponDetail() {
                     </p>
                 </div>
                 <div>
-                    <div className='grid grid-cols-4'>
+                    <div className='grid grid-cols-6'>
                         <input
-                            className='p-2 col-span-1 mr-4 bg-[#222528] placeholder:text-sm placeholder:text-white rounded-md'
+                            className='p-2 col-span-2 mr-4 bg-[#222528] placeholder:text-sm placeholder:text-white rounded-md'
                             type='number'
                             placeholder='Input price...'
                         />
@@ -78,7 +78,7 @@ export function CouponDetail() {
                         >
                             {({ open }) => (
                                 <>
-                                    <div className='relative col-span-3'>
+                                    <div className='relative col-span-4'>
                                         <Listbox.Button className='w-full h-full border border-[#6B7280] cursor-default rounded-md bg-[#222528] py-1.5 pl-3 pr-10 text-left text-white shadow-sm sm:text-sm sm:leading-6'>
                                             <span className='flex items-center'>
                                                 <span className='block truncate'>
