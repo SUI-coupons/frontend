@@ -19,6 +19,10 @@ import { Buy } from './pages/Buy.tsx'
 import { Register } from './pages/Register.tsx'
 import { Listings, walletLoader } from './pages/Listings.tsx'
 import { AddCoupon } from './pages/AddCoupon.tsx'
+import SingleKiosk from './routes/SingleKiosk.tsx'
+import { KisokClientProvider } from './context/KioskClientContext.tsx'
+import Home from './routes/Home.tsx'
+import { CouponDetail } from './pages/CouponDetail.tsx'
 
 const queryClient = new QueryClient()
 
@@ -47,7 +51,16 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: '/my-listings',
+                path: '/coupons',
+                children: [
+                    {
+                        path: ':couponId',
+                        element: <CouponDetail />,
+                    },
+                ],
+            },
+            {
+                path: '/my-coupons',
                 children: [
                     {
                         path: ':walletAddress',
@@ -59,6 +72,18 @@ const router = createBrowserRouter([
             {
                 path: '/add',
                 element: <AddCoupon />,
+            },
+            {
+                path: '/kiosk',
+                element: <SingleKiosk />,
+            },
+            {
+                path: '/create_kiosk',
+                element: <Home />,
+            },
+            {
+                path: '/kiosk/:id',
+                element: <SingleKiosk />,
             },
         ],
     },
@@ -73,7 +98,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                     defaultNetwork='testnet'
                 >
                     <WalletProvider autoConnect>
-                        <RouterProvider router={router} />
+                        <KisokClientProvider>
+                            <RouterProvider router={router} />
+                        </KisokClientProvider>
                     </WalletProvider>
                 </SuiClientProvider>
             </QueryClientProvider>
