@@ -51,7 +51,9 @@ export function Listings({ needLogin }) {
                 <h1>Please login first</h1>
             ) : (
                 <>
-                    <h1>Wallet: {walletAddress}</h1>
+                    <h1 className='text-center text-3xl font-bold'>
+                        Your Coupons
+                    </h1>
                     <section className='grid grid-cols-4 gap-x-8 gap-y-4 justify-between'>
                         {listAvailableCoupons.map(
                             (coupon_id: string, index: number) => {

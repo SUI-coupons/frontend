@@ -26,7 +26,7 @@ export function OwnedObject({
         <DisplayObject item={object}>
             <>
                 <Button
-                    className='bg-gray-200 hover:bg-primary hover:text-white'
+                    className='bg-[#4DA2FF] hover:bg-primary hover:text-white'
                     loading={placeToKioskMutation.isPending}
                     onClick={() =>
                         placeToKioskMutation.mutate({ item: object, kioskId })

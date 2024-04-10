@@ -16,6 +16,7 @@ import { ExplorerLink } from '../Base/ExplorerLink'
 import { Loading } from '../Base/Loading'
 import { OwnedObjects } from '../Inventory/OwnedObjects'
 import { KioskItems } from './KioskItems'
+import clsx from 'clsx'
 
 export function KioskData({ kioskId }: { kioskId: string }) {
     const currentAccount = useCurrentAccount()
@@ -84,15 +85,49 @@ export function KioskData({ kioskId }: { kioskId: string }) {
             </div>
 
             <Tab.Group vertical defaultIndex={0}>
-                <Tab.List>
-                    <Tab className='tab-title'>My Kiosk</Tab>
-                    <Tab className='tab-title'>My Wallet</Tab>
+                <Tab.List className='flex space-x-1 rounded-xl bg-blue-900/20 p-1 w-[50%]'>
+                    <Tab
+                        className={({ selected }) =>
+                            clsx(
+                                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                                'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                selected
+                                    ? 'bg-white text-blue-700 shadow'
+                                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+                            )
+                        }
+                    >
+                        My Kiosk
+                    </Tab>
+                    <Tab
+                        className={({ selected }) =>
+                            clsx(
+                                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                                'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                selected
+                                    ? 'bg-white text-blue-700 shadow'
+                                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+                            )
+                        }
+                    >
+                        My Wallet
+                    </Tab>
                 </Tab.List>
-                <Tab.Panels>
-                    <Tab.Panel>
+                <Tab.Panels className='w-[50%]'>
+                    <Tab.Panel
+                        className={clsx(
+                            'rounded-xl bg-black p-3',
+                            'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                        )}
+                    >
                         {kioskId && <KioskItems kioskId={kioskId}></KioskItems>}
                     </Tab.Panel>
-                    <Tab.Panel>
+                    <Tab.Panel
+                        className={clsx(
+                            'rounded-xl bg-black p-3',
+                            'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                        )}
+                    >
                         {currentAccount && (
                             <OwnedObjects
                                 kioskId={kioskId}

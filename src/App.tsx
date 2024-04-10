@@ -32,9 +32,9 @@ function App() {
                     <div className='flex gap-4'>
                         <Link to={'/'}>Explore</Link>
                         <Link
-                            to={`/my-listings/${currentAccount ? currentAccount.address : ''}`}
+                            to={`/my-coupons/${currentAccount ? currentAccount.address : ''}`}
                         >
-                            My Listings
+                            My Coupons
                         </Link>
                         <Link to={'/register'}>Register</Link>
                         <Link to={'/add'}>Add Coupon</Link>

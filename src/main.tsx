@@ -22,6 +22,7 @@ import { AddCoupon } from './pages/AddCoupon.tsx'
 import SingleKiosk from './routes/SingleKiosk.tsx'
 import { KisokClientProvider } from './context/KioskClientContext.tsx'
 import Home from './routes/Home.tsx'
+import { CouponDetail } from './pages/CouponDetail.tsx'
 
 const queryClient = new QueryClient()
 
@@ -50,7 +51,16 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: '/my-listings',
+                path: '/coupons',
+                children: [
+                    {
+                        path: ':couponId',
+                        element: <CouponDetail />,
+                    },
+                ],
+            },
+            {
+                path: '/my-coupons',
                 children: [
                     {
                         path: ':walletAddress',

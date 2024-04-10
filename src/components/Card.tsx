@@ -5,6 +5,7 @@ import {
     useCurrentAccount,
     useSignAndExecuteTransactionBlock,
 } from '@mysten/dapp-kit'
+import { Link } from 'react-router-dom'
 
 interface CardProps {
     description: string
@@ -79,7 +80,13 @@ export function Card({
                 <div className='flex justify-between items-center px-3'>
                     <div>
                         <p className='text-sm text-[#FFFFFF99]'>by {brand}</p>
-                        <h3 className='font-bold'>{description}</h3>
+                        {!claimable ? (
+                            <Link to={`/coupons/${coupon_id.toString()}`}>
+                                <h3 className='font-bold'>{description}</h3>
+                            </Link>
+                        ) : (
+                            <h3 className='font-bold'>{description}</h3>
+                        )}
                     </div>
                     <p className='text-[#FFFFFF99]'>
                         {(parseFloat(discount) * 100).toString()}% OFF

@@ -37,7 +37,7 @@ export function ExplorerLink(opts: LinkOptions) {
                 {opts.text}
             </a>
             <button
-                className='!p-1 ml-3 text-xs ease-in-out duration-300 rounded border border-transparent bg-gray-200'
+                className='!p-1 ml-3 text-xs ease-in-out duration-300 rounded border border-transparent bg-[#4DA2FF]'
                 onClick={copyToClipboard}
             >
                 {copied ? 'copied' : 'copy'}
