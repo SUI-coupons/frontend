@@ -9,6 +9,7 @@ import { Modal } from 'flowbite-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { mistToSui } from '../utils/utils'
+import { Button } from './Base/Button'
 
 interface CardProps {
     description: string
@@ -19,6 +20,7 @@ interface CardProps {
     imageURI: string
     coupon_id: string
     ownerType: string
+    children?: React.ReactNode
 }
 
 export function Card({
@@ -30,6 +32,7 @@ export function Card({
     discount,
     imageURI,
     ownerType,
+    children,
 }: CardProps) {
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
@@ -130,6 +133,8 @@ export function Card({
                                 Claim
                             </button>
                         </div>
+                    ) : ownerType === 'seller' ? (
+                        <>{children}</>
                     ) : (
                         <div>
                             <div>Price: {mistToSui(price)} SUI</div>

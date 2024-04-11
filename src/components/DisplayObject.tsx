@@ -25,7 +25,13 @@ export function DisplayObject({
     children,
 }: DisplayObject) {
     if (item) {
-        return <CouponData coupon_id={item.objectId} price={listing?.price} />
+        return (
+            <div>
+                <CouponData coupon_id={item.objectId} price={listing?.price}>
+                    {children}
+                </CouponData>
+            </div>
+        )
     } else {
         return <Loading />
     }

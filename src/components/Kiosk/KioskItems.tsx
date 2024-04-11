@@ -120,7 +120,7 @@ export function KioskItems({ kioskId }: { kioskId?: string }) {
     const profits = formatSui(mistToSui(kiosk?.profits))
 
     return (
-        <div className='mt-12'>
+        <div className=''>
             {
                 // We're hiding this when we've clicked "view kiosk" for our own kiosk.
                 isOwnedKiosk() && isKioskPage && (
@@ -129,34 +129,32 @@ export function KioskItems({ kioskId }: { kioskId?: string }) {
                     </div>
                 )
             }
-            <div className='grid sm:grid-cols-2 xl:grid-cols-4 gap-5'>
-                {kioskItems.map((item: OwnedObjectType) => (
-                    <KioskItemCmp
-                        key={item.objectId}
-                        kioskId={kioskId}
-                        item={item}
-                        isGuest={!isOwnedKiosk()}
-                        hasKiosk={!!walletKiosk?.kioskId}
-                        onSuccess={() => {
-                            getKioskData()
-                        }}
-                        listing={kioskListings && kioskListings[item.objectId]}
-                        listFn={(item: OwnedObjectType) => setModalItem(item)}
-                    />
-                ))}
-                {modalItem && (
-                    <ListPrice
-                        kioskId={kioskId}
-                        item={modalItem}
-                        onSuccess={() => {
-                            toast.success('Item listed successfully.')
-                            getKioskData() // replace with single kiosk Item search here and replace
-                            setModalItem(null) // replace modal.
-                        }}
-                        closeModal={() => setModalItem(null)}
-                    />
-                )}
-            </div>
+            {kioskItems.map((item: OwnedObjectType) => (
+                <KioskItemCmp
+                    key={item.objectId}
+                    kioskId={kioskId}
+                    item={item}
+                    isGuest={!isOwnedKiosk()}
+                    hasKiosk={!!walletKiosk?.kioskId}
+                    onSuccess={() => {
+                        getKioskData()
+                    }}
+                    listing={kioskListings && kioskListings[item.objectId]}
+                    listFn={(item: OwnedObjectType) => setModalItem(item)}
+                />
+            ))}
+            {modalItem && (
+                <ListPrice
+                    kioskId={kioskId}
+                    item={modalItem}
+                    onSuccess={() => {
+                        toast.success('Item listed successfully.')
+                        getKioskData() // replace with single kiosk Item search here and replace
+                        setModalItem(null) // replace modal.
+                    }}
+                    closeModal={() => setModalItem(null)}
+                />
+            )}
             {kiosk && (
                 <div className='gap-5 flex justify-between items-center'>
                     <div className='mt-2'>Items Count: {kiosk.itemCount}</div>
