@@ -181,7 +181,7 @@ export function KioskItem({
                     {listing && !isGuest && (
                         <Button
                             loading={delistMutation.isPending}
-                            className='border-gray-400 bg-white hover:bg-primary hover:text-white md:col-span-2'
+                            className='border-gray-400 bg-black hover:bg-primary text-white md:col-span-2'
                             onClick={handleDelist}
                         >
                             Delist item

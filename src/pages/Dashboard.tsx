@@ -6,9 +6,11 @@ import { useSuiClientQuery } from '@mysten/dapp-kit'
 export function CouponData({
     coupon_id,
     price,
+    children,
 }: {
     coupon_id: string
     price: string
+    children?: React.ReactNode
 }) {
     const { data } = useSuiClientQuery('getObject', {
         id: coupon_id,
@@ -54,6 +56,7 @@ export function CouponData({
                 imageURI={imageURI}
                 ownerType={ownerType}
                 price={price}
+                children={children}
             />
         )
     }
