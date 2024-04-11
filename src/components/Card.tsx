@@ -109,7 +109,7 @@ export function Card({
                         </p>
                         <p>{dateFormat}</p>
                     </div>
-                    {ownerType === 'owned' ? (
+                    {ownerType === 'address' ? (
                         <div className='justify-self-end'>Owned</div>
                     ) : ownerType === 'shared' ? (
                         <div className='justify-self-end'>
@@ -130,7 +130,7 @@ export function Card({
                             </button>
                         </div>
                     ) : (
-                        <div>h1</div>
+                        <div>In market place</div>
                     )}
                 </div>
             </section>
