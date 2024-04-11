@@ -3,7 +3,13 @@ import { Card } from '../components/Card'
 import { useEffect, useState } from 'react'
 import { useSuiClientQuery } from '@mysten/dapp-kit'
 
-export function CouponData({ coupon_id }: { coupon_id: string }) {
+export function CouponData({
+    coupon_id,
+    price,
+}: {
+    coupon_id: string
+    price: string
+}) {
     const { data } = useSuiClientQuery('getObject', {
         id: coupon_id,
         options: {
@@ -47,6 +53,7 @@ export function CouponData({ coupon_id }: { coupon_id: string }) {
                 discount={(discount / 200).toString()}
                 imageURI={imageURI}
                 ownerType={ownerType}
+                price={price}
             />
         )
     }

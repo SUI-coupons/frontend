@@ -150,46 +150,119 @@ export function KioskItem({
             </DisplayObject>
         )
 
-    console.log(item.isLocked)
-    console.log(takeMutation.isPending)
-
     return (
-        <DisplayObject item={item} listing={listing}>
-            <>
-                {!listing && !isGuest && (
-                    <>
-                        <Button
-                            className='border-gray-400 bg-transparent hover:bg-primary hover:text-white '
-                            loading={takeMutation.isPending}
-                            disabled={item.isLocked}
-                            onClick={() =>
-                                takeMutation.mutate({
-                                    item,
-                                    kioskId: kioskId,
-                                })
-                            }
-                        >
-                            Take from Kiosk
-                        </Button>
+        <div className=''>
+            <DisplayObject item={item} listing={listing}>
+                <>
+                    {!listing && !isGuest && (
+                        <>
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white '
+                                loading={takeMutation.isPending}
+                                disabled={item.isLocked}
+                                onClick={() =>
+                                    takeMutation.mutate({
+                                        item,
+                                        kioskId: kioskId,
+                                    })
+                                }
+                            >
+                                Take from Kiosk
+                            </Button>
 
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white'
+                                onClick={() => listFn(item)}
+                            >
+                                List for Sale
+                            </Button>
+                        </>
+                    )}
+                    {listing && !isGuest && (
                         <Button
-                            className='border-gray-400 bg-transparent hover:bg-primary hover:text-white'
-                            onClick={() => listFn(item)}
+                            loading={delistMutation.isPending}
+                            className='border-gray-400 bg-white hover:bg-primary hover:text-white md:col-span-2'
+                            onClick={handleDelist}
                         >
-                            List for Sale
+                            Delist item
                         </Button>
-                    </>
-                )}
-                {listing && !isGuest && (
-                    <Button
-                        loading={delistMutation.isPending}
-                        className='border-gray-400 bg-transparent hover:bg-primary hover:text-white md:col-span-2'
-                        onClick={handleDelist}
-                    >
-                        Delist item
-                    </Button>
-                )}
-            </>
-        </DisplayObject>
+                    )}
+                </>
+            </DisplayObject>
+            <DisplayObject item={item} listing={listing}>
+                <>
+                    {!listing && !isGuest && (
+                        <>
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white '
+                                loading={takeMutation.isPending}
+                                disabled={item.isLocked}
+                                onClick={() =>
+                                    takeMutation.mutate({
+                                        item,
+                                        kioskId: kioskId,
+                                    })
+                                }
+                            >
+                                Take from Kiosk
+                            </Button>
+
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white'
+                                onClick={() => listFn(item)}
+                            >
+                                List for Sale
+                            </Button>
+                        </>
+                    )}
+                    {listing && !isGuest && (
+                        <Button
+                            loading={delistMutation.isPending}
+                            className='border-gray-400 bg-white hover:bg-primary hover:text-white md:col-span-2'
+                            onClick={handleDelist}
+                        >
+                            Delist item
+                        </Button>
+                    )}
+                </>
+            </DisplayObject>
+            <DisplayObject item={item} listing={listing}>
+                <>
+                    {!listing && !isGuest && (
+                        <>
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white '
+                                loading={takeMutation.isPending}
+                                disabled={item.isLocked}
+                                onClick={() =>
+                                    takeMutation.mutate({
+                                        item,
+                                        kioskId: kioskId,
+                                    })
+                                }
+                            >
+                                Take from Kiosk
+                            </Button>
+
+                            <Button
+                                className='border-gray-400 bg-white hover:bg-primary hover:text-white'
+                                onClick={() => listFn(item)}
+                            >
+                                List for Sale
+                            </Button>
+                        </>
+                    )}
+                    {listing && !isGuest && (
+                        <Button
+                            loading={delistMutation.isPending}
+                            className='border-gray-400 bg-white hover:bg-primary hover:text-white md:col-span-2'
+                            onClick={handleDelist}
+                        >
+                            Delist item
+                        </Button>
+                    )}
+                </>
+            </DisplayObject>
+        </div>
     )
 }

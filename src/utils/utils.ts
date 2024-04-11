@@ -51,7 +51,7 @@ export const formatSui = (amount: number) => {
 }
 
 export const suiToMist = (sui: number) => {
-    return BigInt(sui * (10 ** SUI_DECIMALS))
+    return BigInt(sui * 10 ** SUI_DECIMALS)
 }
 
 /**

@@ -10,6 +10,8 @@ import { formatSui, mistToSui } from '../utils/utils'
 import { OwnedObjectType } from './Inventory/OwnedObjects'
 import { ItemLockedBadge } from './Kiosk/ItemLockedBadge'
 import { useOwnedObjects } from '../hooks/useOwnedObjects'
+import { Loading } from './Base/Loading'
+import { CouponData } from '../pages/Dashboard'
 
 export interface DisplayObject {
     listing?: KioskListing | null
@@ -22,80 +24,9 @@ export function DisplayObject({
     listing = null,
     children,
 }: DisplayObject) {
-    const currentAccount = useCurrentAccount()
-    console.log(item)
-    const { data } = useSuiClientQuery('getObject', {
-        id: item.objectId,
-        options: {
-            showType: true,
-            showOwner: true,
-            showPreviousTransaction: true,
-            showDisplay: false,
-            showContent: true,
-            showBcs: false,
-            showStorageRebate: true,
-        },
-    })
-
-    if (data) {
-        const {
-            brandName,
-            itemDiscount,
-            discount,
-            expirationDate,
-            publisher,
-            imageURI,
-        } = data?.data?.content?.fields
-        console.log(data)
-        const price = formatSui(mistToSui(listing?.price))
-
-        return (
-            <div className='border relative border-gray-400 overflow-hidden text-center flex justify-between flex-col rounded-lg'>
-                <div className='h-[275px] xl:h-[200px] overflow-hidden bg-gray-50'>
-                    <img
-                        src={imageURI}
-                        className='object-cover aspect-auto h-full w-full mx-auto'
-                        alt='The display of the object'
-                        // @ts-ignore-next-line simple way to just default on error. Not recommended for production.
-                        onError={e => (e.target.src = DEFAULT_IMAGE)}
-                    ></img>
-                </div>
-
-                <div className='p-4'>
-                    {brandName && (
-                        <h3 className='text-clip overflow-hidden'>
-                            {brandName}
-                        </h3>
-                    )}
-
-                    {itemDiscount && (
-                        <p className='text-sm opacity-80 text-clip overflow-hidden'>
-                            {itemDiscount}
-                        </p>
-                    )}
-
-                    {listing && listing.price && (
-                        <div className='absolute left-2 top-2 bg-primary text-white px-2 py-1 rounded-lg'>
-                            {price} SUI
-                        </div>
-                    )}
-
-                    {item.isLocked && <ItemLockedBadge />}
-
-                    {/* button actions */}
-                    {currentAccount?.address ? (
-                        <div className='grid lg:grid-cols-2 gap-5 mt-6'>
-                            {children}
-                        </div>
-                    ) : (
-                        <div className='mt-6 text-xs'>
-                            Connect your wallet to interact
-                        </div>
-                    )}
-                </div>
-            </div>
-        )
+    if (item) {
+        return <CouponData coupon_id={item.objectId} price={listing?.price} />
     } else {
-        return <div>Loading...</div>
+        return <Loading />
     }
 }

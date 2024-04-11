@@ -8,6 +8,7 @@ import {
 import { Modal } from 'flowbite-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { mistToSui } from '../utils/utils'
 
 interface CardProps {
     description: string
@@ -90,7 +91,7 @@ export function Card({
                 <div className='flex justify-between items-center px-3'>
                     <div>
                         <p className='text-sm text-[#FFFFFF99]'>by {brand}</p>
-                        {ownerType === 'owned' ? (
+                        {ownerType === 'address' ? (
                             <Link to={`/coupons/${coupon_id.toString()}`}>
                                 <h3 className='font-bold'>{description}</h3>
                             </Link>
@@ -130,7 +131,16 @@ export function Card({
                             </button>
                         </div>
                     ) : (
-                        <div>In market place</div>
+                        <div>
+                            <div>Price: {mistToSui(price)} SUI</div>
+                            <button
+                                className={clsx(
+                                    `px-4 py-2 bg-[#4DA2FF] rounded-md`,
+                                )}
+                            >
+                                Purchase
+                            </button>
+                        </div>
                     )}
                 </div>
             </section>
