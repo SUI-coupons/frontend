@@ -3,13 +3,7 @@ import { Card } from '../components/Card'
 import { useEffect, useState } from 'react'
 import { useSuiClientQuery } from '@mysten/dapp-kit'
 
-export function CouponData({
-    coupon_id,
-    claimable,
-}: {
-    coupon_id: string
-    claimable: boolean
-}) {
+export function CouponData({ coupon_id }: { coupon_id: string }) {
     const { data } = useSuiClientQuery('getObject', {
         id: coupon_id,
         options: {
@@ -36,6 +30,14 @@ export function CouponData({
             publisher,
             imageURI,
         } = data?.data?.content?.fields
+        let ownerType = ''
+        if (data?.data?.owner.AddressOwner) {
+            ownerType = 'address'
+        } else if (data?.data?.owner.ObjectOwner) {
+            ownerType = 'object'
+        } else {
+            ownerType = 'shared'
+        }
         return (
             <Card
                 coupon_id={id.id.toString()}
@@ -44,7 +46,7 @@ export function CouponData({
                 status={expirationDate.toString()}
                 discount={(discount / 200).toString()}
                 imageURI={imageURI}
-                claimable={claimable}
+                ownerType={ownerType}
             />
         )
     }
@@ -79,11 +81,7 @@ export function Dashboard() {
                 {listAvailableCoupons.map(
                     (coupon_id: string, index: number) => {
                         const CouponDataComponent = (
-                            <CouponData
-                                key={index}
-                                coupon_id={coupon_id}
-                                claimable={true}
-                            />
+                            <CouponData key={index} coupon_id={coupon_id} />
                         )
                         return CouponDataComponent
                     },

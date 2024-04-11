@@ -7,6 +7,7 @@ import {
     MIST_PER_SUI,
     normalizeSuiAddress,
     formatAddress,
+    SUI_DECIMALS,
 } from '@mysten/sui.js/utils'
 
 // Parse the display of a list of objects into a simple {object_id: display} map
@@ -47,6 +48,10 @@ export const formatSui = (amount: number) => {
         minimumFractionDigits: 2,
         maximumFractionDigits: 5,
     }).format(amount)
+}
+
+export const suiToMist = (sui: number) => {
+    return BigInt(sui * (10 ** SUI_DECIMALS))
 }
 
 /**

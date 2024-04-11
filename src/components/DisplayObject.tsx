@@ -62,15 +62,15 @@ export function DisplayObject({
                 </div>
 
                 <div className='p-4'>
-                    {item.display.name && (
+                    {brandName && (
                         <h3 className='text-clip overflow-hidden'>
-                            {item.display.name}
+                            {brandName}
                         </h3>
                     )}
 
-                    {item.display.description && (
+                    {itemDiscount && (
                         <p className='text-sm opacity-80 text-clip overflow-hidden'>
-                            {item.display.description}
+                            {itemDiscount}
                         </p>
                     )}
 
@@ -80,9 +80,6 @@ export function DisplayObject({
                         </div>
                     )}
 
-                    <p className='text-xs break-words text-gray-400 py-3'>
-                        {item.type}
-                    </p>
                     {item.isLocked && <ItemLockedBadge />}
 
                     {/* button actions */}

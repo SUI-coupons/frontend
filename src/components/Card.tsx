@@ -17,7 +17,7 @@ interface CardProps {
     discount: string
     imageURI: string
     coupon_id: string
-    claimable: boolean
+    ownerType: string
 }
 
 export function Card({
@@ -28,7 +28,7 @@ export function Card({
     price,
     discount,
     imageURI,
-    claimable,
+    ownerType,
 }: CardProps) {
     const dateFormat = new Date(status * 1000).toLocaleDateString()
     const valid = new Date(status * 1000) > new Date()
@@ -90,7 +90,7 @@ export function Card({
                 <div className='flex justify-between items-center px-3'>
                     <div>
                         <p className='text-sm text-[#FFFFFF99]'>by {brand}</p>
-                        {!claimable ? (
+                        {ownerType === 'address' ? (
                             <Link to={`/coupons/${coupon_id.toString()}`}>
                                 <h3 className='font-bold'>{description}</h3>
                             </Link>
@@ -109,10 +109,11 @@ export function Card({
                         </p>
                         <p>{dateFormat}</p>
                     </div>
-                    {!claimable ? (
-                        <div className='justify-self-end'>Place</div>
+                    {ownerType === 'owned' ? (
+                        <div className='justify-self-end'>Owned</div>
                     ) : (
-                        <div className='justify-self-end'>
+                        {ownerType === 'shared' && (
+                            <div className='justify-self-end'>
                             <button
                                 disabled={!valid}
                                 className={clsx(
@@ -128,7 +129,7 @@ export function Card({
                             >
                                 Claim
                             </button>
-                        </div>
+                        </div>) : (<div>h1</div>)}
                     )}
                 </div>
             </section>

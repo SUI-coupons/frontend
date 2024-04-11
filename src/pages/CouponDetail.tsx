@@ -14,6 +14,7 @@ import { WalletNotConnected } from '../components/Base/WalletNotConnected'
 import { assert, formatAddress } from '@mysten/sui.js/utils'
 import { TransactionBlock } from '@mysten/sui.js/transactions'
 import { usePlaceMutation } from '../mutations/kiosk'
+import { formatSui, suiToMist } from '../utils/utils'
 
 export function CouponData({ coupon_id }: { coupon_id: string }) {
     const { data } = useSuiClientQuery('getObject', {
@@ -71,23 +72,24 @@ export function CouponDetail() {
 
     const handleList = () => {
         if (!ownedKiosk) return
-        const trueMYST = selectedPrice * 10 ** 9
+        console.log(selectedPrice)
+        const trueMIST = suiToMist(selectedPrice)
+        console.log(trueMIST)
         const txb = new TransactionBlock()
         const kioskId = selectedKiosk
         if (!kioskId) return
         const capId = ownedKiosk.caps.find(
             cap => cap.kioskId === kioskId,
         )?.objectId
+        console.log(capId, kioskId, couponId)
         txb.moveCall({
-            target: `0x2::kiosk::place_and_list`,
+            target: `${import.meta.env.VITE_PACKAGE_ID}::coupons::place_and_list_coupon`,
             arguments: [
+                txb.object(`${import.meta.env.VITE_STATE_OBJECT_ID}`),
                 txb.object(kioskId),
                 txb.object(capId),
                 txb.object(couponId as string),
-                txb.pure.u64(trueMYST),
-            ],
-            typeArguments: [
-                `${import.meta.env.VITE_PACKAGE_ID}::coupons::Coupon`,
+                txb.pure.u64(trueMIST),
             ],
         })
         signAndExecuteTransactionBlock(

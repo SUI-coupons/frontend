@@ -5,7 +5,7 @@ import { KioskListing } from '@mysten/kiosk'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 
-import { KioskFnType } from '../../hooks/kiosk'
+import { KioskFnType, useOwnedKiosk } from '../../hooks/kiosk'
 import {
     useCreateKioskMutation,
     useDelistMutation,
@@ -16,6 +16,13 @@ import { TANSTACK_OWNED_KIOSK_KEY } from '../../utils/constants'
 import { Button } from '../Base/Button'
 import { DisplayObject } from '../DisplayObject'
 import { OwnedObjectType } from '../Inventory/OwnedObjects'
+import { TransactionBlock, Transactions } from '@mysten/sui.js/transactions'
+import { findActiveCap } from '../../utils/utils'
+import {
+    useAccounts,
+    useCurrentAccount,
+    useSignAndExecuteTransactionBlock,
+} from '@mysten/dapp-kit'
 
 export type KioskItemProps = {
     isGuest?: boolean
@@ -60,12 +67,50 @@ export function KioskItem({
         },
     })
 
+    const currentAccount = useCurrentAccount()
+    const { data: ownedKiosk } = useOwnedKiosk(currentAccount?.address)
+
     const purchaseMutation = usePurchaseItemMutation({
         onSuccess: () => {
             toast.success('Item purchased successfully')
             onSuccess()
         },
     })
+
+    const { mutate: signAndExecuteTransactionBlock } =
+        useSignAndExecuteTransactionBlock()
+
+    const handleDelist = () => {
+        const txb = new TransactionBlock()
+        const cap = findActiveCap(ownedKiosk?.caps, kioskId)
+
+        if (!cap || !currentAccount?.address)
+            throw new Error('Missing account, kiosk or kiosk cap')
+
+        if (!item?.objectId) throw new Error('Missing item.')
+
+        txb.moveCall({
+            target: `${import.meta.env.VITE_PACKAGE_ID}::coupons::delist_and_take_coupon`,
+            arguments: [
+                txb.object(`${import.meta.env.VITE_STATE_OBJECT_ID}`),
+                txb.object(kioskId),
+                txb.object(cap.objectId),
+                txb.pure.id(item.objectId),
+            ],
+        })
+
+        signAndExecuteTransactionBlock(
+            {
+                transactionBlock: txb,
+                chain: 'sui::testnet',
+            },
+            {
+                onSuccess: result => {
+                    console.log('result', result)
+                },
+            },
+        )
+    }
 
     if (isGuest)
         return (
@@ -139,15 +184,7 @@ export function KioskItem({
                     <Button
                         loading={delistMutation.isPending}
                         className='border-gray-400 bg-transparent hover:bg-primary hover:text-white md:col-span-2'
-                        onClick={() =>
-                            delistMutation.mutate({
-                                item: {
-                                    ...item,
-                                    listing,
-                                },
-                                kioskId: kioskId,
-                            })
-                        }
+                        onClick={handleDelist}
                     >
                         Delist item
                     </Button>
