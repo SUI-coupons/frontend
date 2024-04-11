@@ -10,6 +10,7 @@ import { KioskData } from '../components/Kiosk/KioskData'
 import { KioskSelector } from '../components/Kiosk/KioskSelector'
 import { useOwnedKiosk } from '../hooks/kiosk'
 import { useKioskSelector } from '../hooks/useKioskSelector'
+import { useCreateKioskMutation } from '../mutations/kiosk'
 
 function Home() {
     const currentAccount = useCurrentAccount()
@@ -19,6 +20,12 @@ function Home() {
         isPending,
         refetch: refetchOwnedKiosk,
     } = useOwnedKiosk(currentAccount?.address)
+
+    const { mutate: createKiosk } = useCreateKioskMutation({
+        onSuccess: () => {
+            refetchOwnedKiosk()
+        },
+    })
 
     const { selected, setSelected, showKioskSelector } = useKioskSelector(
         currentAccount?.address,
@@ -34,9 +41,21 @@ function Home() {
     if (!ownedKiosk?.kioskId)
         return <KioskCreation onCreate={refetchOwnedKiosk} />
 
+    const handleCreateKiosk = () => {
+        createKiosk()
+    }
+
     // kiosk management screen.
     return (
         <div className='container'>
+            <button
+                onClick={e => {
+                    e.preventDefault()
+                    handleCreateKiosk()
+                }}
+            >
+                Create new Kiosk
+            </button>
             {showKioskSelector && selected && (
                 <div className='px-4'>
                     <KioskSelector
