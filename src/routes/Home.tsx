@@ -11,6 +11,7 @@ import { KioskSelector } from '../components/Kiosk/KioskSelector'
 import { useOwnedKiosk } from '../hooks/kiosk'
 import { useKioskSelector } from '../hooks/useKioskSelector'
 import { useCreateKioskMutation } from '../mutations/kiosk'
+import { Button } from '../components/Base/Button'
 
 function Home() {
     const currentAccount = useCurrentAccount()
@@ -48,23 +49,25 @@ function Home() {
     // kiosk management screen.
     return (
         <div className='container'>
-            <button
-                onClick={e => {
-                    e.preventDefault()
-                    handleCreateKiosk()
-                }}
-            >
-                Create new Kiosk
-            </button>
-            {showKioskSelector && selected && (
-                <div className='px-4'>
-                    <KioskSelector
-                        caps={ownedKiosk.caps}
-                        selected={selected}
-                        setSelected={setSelected}
-                    />
-                </div>
-            )}
+            <div className='flex flex-row-reverse justify-between items-center'>
+                <Button
+                    onClick={e => {
+                        e.preventDefault()
+                        handleCreateKiosk()
+                    }}
+                >
+                    Create new Kiosk
+                </Button>
+                {showKioskSelector && selected && (
+                    <div className=''>
+                        <KioskSelector
+                            caps={ownedKiosk.caps}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                    </div>
+                )}
+            </div>
             {selected && currentAccount?.address && (
                 <KioskData kioskId={selected.kioskId} />
             )}

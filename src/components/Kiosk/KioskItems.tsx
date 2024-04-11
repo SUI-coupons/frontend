@@ -1,18 +1,27 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCurrentAccount } from '@mysten/dapp-kit'
+import {
+    useCurrentAccount,
+    useSignAndExecuteTransactionBlock,
+} from '@mysten/dapp-kit'
 import { normalizeSuiAddress } from '@mysten/sui.js/utils'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useKiosk, useOwnedKiosk } from '../../hooks/kiosk'
+import { useKiosk, useKioskDetails, useOwnedKiosk } from '../../hooks/kiosk'
 import { Loading } from '../Base/Loading'
 import { OwnedObjectType } from '../Inventory/OwnedObjects'
 import { ListPrice } from '../Modals/ListPrice'
 import { KioskItem as KioskItemCmp } from './KioskItem'
 import { KioskNotFound } from './KioskNotFound'
+import { useQueryClient } from '@tanstack/react-query'
+import { useWithdrawMutation } from '../../mutations/kiosk'
+import { TANSTACK_KIOSK_DATA_KEY } from '../../utils/constants'
+import { findActiveCap, formatSui, mistToSui } from '../../utils/utils'
+import { TransactionBlock } from '@mysten/sui.js/transactions'
+import { Button } from '../Base/Button'
 
 export function KioskItems({ kioskId }: { kioskId?: string }) {
     const location = useLocation()
@@ -48,6 +57,25 @@ export function KioskItems({ kioskId }: { kioskId?: string }) {
         )
     }, [navigate, isError])
 
+    const { data: kiosk } = useKioskDetails(kioskId)
+
+    const queryClient = useQueryClient()
+
+    const withdrawMutation = useWithdrawMutation({
+        onSuccess: () => {
+            toast.success('Profits withdrawn successfully')
+            // invalidate query to refetch kiosk data and update the balance.
+            queryClient.invalidateQueries({
+                queryKey: [TANSTACK_KIOSK_DATA_KEY, kioskId],
+            })
+        },
+    })
+
+    const { mutate: signAndExecuteTransactionBlock } =
+        useSignAndExecuteTransactionBlock()
+
+    const { data: ownedKiosk } = useOwnedKiosk(currentAccount?.address)
+
     const kioskItems = kioskData?.items || []
     const kioskListings = kioskData?.listings || {}
 
@@ -58,8 +86,38 @@ export function KioskItems({ kioskId }: { kioskId?: string }) {
 
     if (isPending) return <Loading />
 
-    if (!kioskId || kioskItems.length === 0)
-        return <div className='py-12'>The kiosk you are viewing is empty!</div>
+    // if (!kioskId || kioskItems.length === 0)
+    //     return <div className='py-12'>The kiosk you are viewing is empty!</div>
+
+    const handleClose = () => {
+        console.log('close')
+        if (!kiosk) return
+        const cap = findActiveCap(ownedKiosk?.caps, kioskId)
+
+        if (!cap || !currentAccount?.address)
+            throw new Error('Missing account, kiosk or kiosk cap')
+
+        const txb = new TransactionBlock()
+        const [coin] = txb.moveCall({
+            target: `0x2::kiosk::close_and_withdraw`,
+            arguments: [txb.object('0x' + kiosk.id), txb.object(cap.objectId)],
+        })
+        txb.transferObjects([coin], currentAccount?.address)
+
+        signAndExecuteTransactionBlock(
+            {
+                transactionBlock: txb,
+                chain: 'sui::testnet',
+            },
+            {
+                onSuccess: result => {
+                    console.log('result', result)
+                },
+            },
+        )
+    }
+
+    const profits = formatSui(mistToSui(kiosk?.profits))
 
     return (
         <div className='mt-12'>
@@ -99,6 +157,32 @@ export function KioskItems({ kioskId }: { kioskId?: string }) {
                     />
                 )}
             </div>
+            {kiosk && (
+                <div className='gap-5 flex justify-between items-center'>
+                    <div className='mt-2'>Items Count: {kiosk.itemCount}</div>
+                    <div className='mt-2'>
+                        Profits: {profits} SUI
+                        {
+                            <Button
+                                loading={withdrawMutation.isPending}
+                                className='ease-in-out duration-300 rounded px-4 text-md !py-1 ml-3'
+                                onClick={() => withdrawMutation.mutate(kiosk)}
+                            >
+                                Withdraw all
+                            </Button>
+                        }
+                        {
+                            <Button
+                                loading={withdrawMutation.isPending}
+                                className='ease-in-out duration-300 rounded px-4 text-md !py-1 ml-3'
+                                onClick={handleClose}
+                            >
+                                Close and withdraw
+                            </Button>
+                        }
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

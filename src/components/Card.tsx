@@ -74,13 +74,13 @@ export function Card({
             <div className='w-full h-[250px] flex items-center bg-transparent rounded-xl'>
                 {imageURI ? (
                     <img
-                        className='rounded-[inherit]'
+                        className='rounded-[inherit] h-full mx-auto'
                         src={imageURI}
                         alt={description}
                     />
                 ) : (
                     <img
-                        className='rounded-[inherit]'
+                        className='rounded-[inherit] h-full mx-auto'
                         src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
                         alt='Shoes'
                     />
@@ -111,9 +111,8 @@ export function Card({
                     </div>
                     {ownerType === 'owned' ? (
                         <div className='justify-self-end'>Owned</div>
-                    ) : (
-                        {ownerType === 'shared' && (
-                            <div className='justify-self-end'>
+                    ) : ownerType === 'shared' ? (
+                        <div className='justify-self-end'>
                             <button
                                 disabled={!valid}
                                 className={clsx(
@@ -129,7 +128,9 @@ export function Card({
                             >
                                 Claim
                             </button>
-                        </div>) : (<div>h1</div>)}
+                        </div>
+                    ) : (
+                        <div>h1</div>
                     )}
                 </div>
             </section>

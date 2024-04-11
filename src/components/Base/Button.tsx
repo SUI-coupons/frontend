@@ -17,13 +17,13 @@ export function Button({
     children: ReactNode
     loading?: boolean
     className?: string
-    onClick: () => Promise<void> | void
+    onClick: (e?: any) => Promise<void> | void
     disabled?: boolean
 }) {
     return (
         <button
             className={classNames(
-                'ease-in-out duration-300 disabled:opacity-30 rounded border py-2 px-4 bg-black',
+                'text-black ease-in-out duration-300 disabled:opacity-30 rounded py-2 px-4 bg-[#4DA2FF]',
                 className,
             )}
             onClick={onClick}

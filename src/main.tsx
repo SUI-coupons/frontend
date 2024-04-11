@@ -23,6 +23,7 @@ import SingleKiosk from './routes/SingleKiosk.tsx'
 import { KisokClientProvider } from './context/KioskClientContext.tsx'
 import Home from './routes/Home.tsx'
 import { CouponDetail } from './pages/CouponDetail.tsx'
+import { KioskCreation } from './components/Kiosk/KioskCreation.tsx'
 
 const queryClient = new QueryClient()
 
