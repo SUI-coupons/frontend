@@ -90,7 +90,7 @@ export function Card({
                 <div className='flex justify-between items-center px-3'>
                     <div>
                         <p className='text-sm text-[#FFFFFF99]'>by {brand}</p>
-                        {ownerType === 'address' ? (
+                        {ownerType === 'owned' ? (
                             <Link to={`/coupons/${coupon_id.toString()}`}>
                                 <h3 className='font-bold'>{description}</h3>
                             </Link>

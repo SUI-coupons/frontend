@@ -27,14 +27,13 @@ export function KioskData({ kioskId }: { kioskId: string }) {
     return (
         <div className='container'>
             <Tab.Group vertical defaultIndex={0}>
-                <Tab.List className='flex space-x-1 rounded-xl bg-blue-900/20 p-1'>
+                <Tab.List className='flex space-x-1 rounded-xl rounded-b-none bg-blue-900/20'>
                     <Tab
                         className={({ selected }) =>
                             clsx(
-                                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                                'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                'w-full rounded-lg rounded-r-none rounded-bl-none py-2.5 text-sm font-medium leading-5',
                                 selected
-                                    ? 'bg-white text-blue-700 shadow'
+                                    ? 'bg-[#141619] text-[#4DA2FF] shadow'
                                     : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
                             )
                         }
@@ -44,10 +43,9 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                     <Tab
                         className={({ selected }) =>
                             clsx(
-                                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                                'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                'w-full rounded-lg rounded-l-none rounded-br-none py-2.5 text-sm font-medium leading-5',
                                 selected
-                                    ? 'bg-white text-blue-700 shadow'
+                                    ? 'bg-[#141619] text-[#4DA2FF] shadow'
                                     : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
                             )
                         }
@@ -58,16 +56,14 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                 <Tab.Panels className=''>
                     <Tab.Panel
                         className={clsx(
-                            'rounded-xl bg-black p-3',
-                            'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                            'rounded-xl rounded-t-none bg-[#141619] p-3',
                         )}
                     >
                         {kioskId && <KioskItems kioskId={kioskId}></KioskItems>}
                     </Tab.Panel>
                     <Tab.Panel
                         className={clsx(
-                            'rounded-xl bg-black p-3',
-                            'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                            'rounded-xl rounded-t-none bg-[#141619] p-3',
                         )}
                     >
                         {kioskId && (
