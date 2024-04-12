@@ -154,30 +154,6 @@ export function KioskItem({
         <div className='grid grid-cols-4 gap-5'>
             <DisplayObject item={item} listing={listing}>
                 <>
-                    {!listing && !isGuest && (
-                        <>
-                            <Button
-                                className='border-gray-400 bg-white hover:bg-primary hover:text-white '
-                                loading={takeMutation.isPending}
-                                disabled={item.isLocked}
-                                onClick={() =>
-                                    takeMutation.mutate({
-                                        item,
-                                        kioskId: kioskId,
-                                    })
-                                }
-                            >
-                                Take from Kiosk
-                            </Button>
-
-                            <Button
-                                className='border-gray-400 bg-white hover:bg-primary hover:text-white'
-                                onClick={() => listFn(item)}
-                            >
-                                List for Sale
-                            </Button>
-                        </>
-                    )}
                     {listing && !isGuest && (
                         <Button
                             loading={delistMutation.isPending}

@@ -133,18 +133,10 @@ export function Card({
                                 Claim
                             </button>
                         </div>
-                    ) : ownerType === 'seller' ? (
-                        <>{children}</>
                     ) : (
                         <div>
-                            <div>Price: {mistToSui(price)} SUI</div>
-                            <button
-                                className={clsx(
-                                    `px-4 py-2 bg-[#4DA2FF] rounded-md`,
-                                )}
-                            >
-                                Purchase
-                            </button>
+                            {price && <div>Price: {mistToSui(price)} SUI</div>}
+                            {children && <>{children}</>}{' '}
                         </div>
                     )}
                 </div>

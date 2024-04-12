@@ -1,7 +1,8 @@
 import { Flex } from '@radix-ui/themes'
 import { Card } from '../components/Card'
 import { useEffect, useState } from 'react'
-import { useSuiClientQuery } from '@mysten/dapp-kit'
+import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit'
+import { get } from 'react-hook-form'
 
 export function CouponData({
     coupon_id,
@@ -12,6 +13,8 @@ export function CouponData({
     price: string
     children?: React.ReactNode
 }) {
+    console.log('coupon_id', coupon_id)
+    console.log('price', price)
     const { data } = useSuiClientQuery('getObject', {
         id: coupon_id,
         options: {
@@ -26,9 +29,6 @@ export function CouponData({
     })
 
     if (data) {
-        if (!data?.data?.content?.fields?.id) {
-            return null
-        }
         const {
             id,
             brandName,
