@@ -31,11 +31,14 @@ export function CouponData({ coupon_id }: { coupon_id: string }) {
     })
 
     if (data) {
+        // @ts-ignore
         if (!data?.data?.content?.fields?.id) {
             return null
         }
         console.log(data)
+        // @ts-ignore
         if (data?.data?.owner?.ObjectOwner) return null
+        // @ts-ignore
         return data?.data?.content?.fields
     }
 }

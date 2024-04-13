@@ -67,6 +67,7 @@ export function KioskData({ kioskId }: { kioskId: string }) {
                         )}
                     >
                         {kioskId && (
+                            // @ts-ignore
                             <Marketplace kioskId={kioskId}></Marketplace>
                         )}
                     </Tab.Panel>

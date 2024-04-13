@@ -34,8 +34,8 @@ export function Card({
     ownerType,
     children,
 }: CardProps) {
-    const dateFormat = new Date(status * 1000).toLocaleDateString()
-    const valid = new Date(status * 1000) > new Date()
+    const dateFormat = new Date(+status * 1000).toLocaleDateString()
+    const valid = new Date(+status * 1000) > new Date()
     const [modalOpen, setModalOpen] = useState(false)
     const [modalText, setModalText] = useState('')
     const [hasError, setHasError] = useState(false)

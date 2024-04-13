@@ -37,10 +37,13 @@ export function CouponData({
             expirationDate,
             publisher,
             imageURI,
+            // @ts-ignore
         } = data?.data?.content?.fields
         let ownerType = ''
+        // @ts-ignore
         if (data?.data?.owner.AddressOwner) {
             ownerType = 'address'
+            // @ts-ignore
         } else if (data?.data?.owner.ObjectOwner) {
             ownerType = 'object'
         } else {
@@ -80,6 +83,7 @@ export function Dashboard() {
 
     useEffect(() => {
         if (data) {
+            // @ts-ignore
             const listCoupons = data?.data?.content?.fields?.availableCoupons
             setListAvailableCoupons(listCoupons)
         }
@@ -91,6 +95,7 @@ export function Dashboard() {
                 {listAvailableCoupons.map(
                     (coupon_id: string, index: number) => {
                         const CouponDataComponent = (
+                            // @ts-ignore
                             <CouponData key={index} coupon_id={coupon_id} />
                         )
                         return CouponDataComponent

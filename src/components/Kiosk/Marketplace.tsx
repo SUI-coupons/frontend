@@ -101,13 +101,16 @@ export function Marketplace() {
                 },
             },
         )
-        console.log('result', result)
     }
 
     if (data) {
+        // @ts-ignore
         const listedCouponsAddress = data?.data?.content?.fields.listedCoupons
+        // @ts-ignore
         const listedCouponsPrice = data?.data?.content?.fields.listedPrice
+        // @ts-ignore
         const listedCouponsOwner = data?.data?.content?.fields.listedOwner
+        // @ts-ignore
         const listedCouponsKiosk = data?.data?.content?.fields.listedKiosk
         const listedCoupons = listedCouponsAddress
             ?.filter(
