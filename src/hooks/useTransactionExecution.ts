@@ -22,7 +22,6 @@ export function useTransactionExecution() {
         tx: TransactionBlock
         options?: SuiTransactionBlockResponseOptions | undefined
     }) => {
-        // @ts-expect-error: This is an issue with type references not working together:
         const signedTx = await signTransactionBlock({ transactionBlock: tx })
 
         const res = await provider.executeTransactionBlock({
