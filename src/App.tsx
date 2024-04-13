@@ -32,11 +32,13 @@ function App() {
                     <div className='flex gap-4'>
                         <Link to={'/'}>Explore</Link>
                         <Link
-                            to={`/my-listings/${currentAccount ? currentAccount.address : ''}`}
+                            to={`/my-coupons/${currentAccount ? currentAccount.address : ''}`}
                         >
-                            My Listings
+                            My Coupons
                         </Link>
                         <Link to={'/register'}>Register</Link>
+                        <Link to={'/add'}>Add Coupon</Link>
+                        <Link to={'/kiosk'}> Kiosk Manage</Link>
                     </div>
                 </div>
 
@@ -49,11 +51,11 @@ function App() {
                             >
                                 {' '}
                                 {currentAccount
-                                    ? currentAccount.address.slice(0, 5) +
+                                    ? currentAccount.address.slice(0, 6) +
                                       '...' +
                                       currentAccount.address.slice(
                                           currentAccount.address.length - 6,
-                                          currentAccount.address.length - 1,
+                                          currentAccount.address.length,
                                       )
                                     : 'Connect'}
                             </button>

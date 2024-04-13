@@ -17,7 +17,13 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Dashboard } from './pages/Dashboard.tsx'
 import { Buy } from './pages/Buy.tsx'
 import { Register } from './pages/Register.tsx'
-import { Listings, walletLoader } from './pages/Listings.tsx'
+import { Listings, walletLoader } from './pages/MyCoupons.tsx'
+import { AddCoupon } from './pages/AddCoupon.tsx'
+import SingleKiosk from './routes/SingleKiosk.tsx'
+import { KisokClientProvider } from './context/KioskClientContext.tsx'
+import Home from './routes/Home.tsx'
+import { CouponDetail } from './pages/CouponDetail.tsx'
+import { KioskCreation } from './components/Kiosk/KioskCreation.tsx'
 
 const queryClient = new QueryClient()
 
@@ -46,7 +52,16 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: '/my-listings',
+                path: '/coupons',
+                children: [
+                    {
+                        path: ':couponId',
+                        element: <CouponDetail />,
+                    },
+                ],
+            },
+            {
+                path: '/my-coupons',
                 children: [
                     {
                         path: ':walletAddress',
@@ -54,6 +69,14 @@ const router = createBrowserRouter([
                         loader: walletLoader,
                     },
                 ],
+            },
+            {
+                path: '/add',
+                element: <AddCoupon />,
+            },
+            {
+                path: '/kiosk',
+                element: <Home />,
             },
         ],
     },
@@ -65,10 +88,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <QueryClientProvider client={queryClient}>
                 <SuiClientProvider
                     networks={networkConfig}
-                    defaultNetwork='devnet'
+                    defaultNetwork='testnet'
                 >
                     <WalletProvider autoConnect>
-                        <RouterProvider router={router} />
+                        <KisokClientProvider>
+                            <RouterProvider router={router} />
+                        </KisokClientProvider>
                     </WalletProvider>
                 </SuiClientProvider>
             </QueryClientProvider>
