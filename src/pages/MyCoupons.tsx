@@ -14,6 +14,7 @@ export function walletLoader({ params }) {
 }
 
 export function Listings({ needLogin }) {
+    // @ts-ignore
     const walletAddress = needLogin ? '' : useLoaderData().walletAddress
 
     const [listAvailableCoupons, setListAvailableCoupons] = useState<
@@ -58,6 +59,7 @@ export function Listings({ needLogin }) {
                         {listAvailableCoupons.map(
                             (coupon_id: string, index: number) => {
                                 const CouponDataComponent = (
+                                    // @ts-ignore
                                     <CouponData
                                         key={index}
                                         coupon_id={coupon_id}

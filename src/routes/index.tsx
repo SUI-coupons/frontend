@@ -3,6 +3,7 @@
 
 import { createBrowserRouter } from 'react-router-dom'
 
+// @ts-ignore
 import Root from '../Root'
 import Home from './Home'
 import SingleKiosk from './SingleKiosk'

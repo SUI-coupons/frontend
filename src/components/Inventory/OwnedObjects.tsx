@@ -42,6 +42,7 @@ export function OwnedObjects({
                     <OwnedObject
                         kioskId={kioskId}
                         key={item.objectId}
+                        // @ts-ignore
                         object={item}
                         onListSuccess={() => {
                             toast.success('Item listed successfully.')
